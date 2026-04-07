@@ -692,26 +692,6 @@ class _BattleQuestionsPageState extends State<BattleQuestionsPage>
               color: const Color(0xFF0B1120),
               child: Row(
                 children: [
-                  if (_currentIndex > 0)
-                    OutlinedButton(
-                      onPressed: () => _goToQuestion(_currentIndex - 1),
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: Colors.white70,
-                        side: const BorderSide(color: Color(0xFF334155)),
-                      ),
-                      child: const Text('Prev'),
-                    ),
-                  if (_currentIndex > 0) const SizedBox(width: 8),
-                  if (_currentIndex < qs.length - 1)
-                    OutlinedButton(
-                      onPressed: () => _goToQuestion(_currentIndex + 1),
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: Colors.white70,
-                        side: const BorderSide(color: Color(0xFF334155)),
-                      ),
-                      child: const Text('Next'),
-                    ),
-                  const Spacer(),
                   SizedBox(
                     height: 44,
                     child: ElevatedButton.icon(
@@ -740,6 +720,26 @@ class _BattleQuestionsPageState extends State<BattleQuestionsPage>
                       ),
                     ),
                   ),
+                  const Spacer(),
+                  if (_currentIndex > 0)
+                    OutlinedButton(
+                      onPressed: () => _goToQuestion(_currentIndex - 1),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.white70,
+                        side: const BorderSide(color: Color(0xFF334155)),
+                      ),
+                      child: const Text('Prev'),
+                    ),
+                  if (_currentIndex > 0) const SizedBox(width: 8),
+                  if (_currentIndex < qs.length - 1)
+                    OutlinedButton(
+                      onPressed: () => _goToQuestion(_currentIndex + 1),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.white70,
+                        side: const BorderSide(color: Color(0xFF334155)),
+                      ),
+                      child: const Text('Next'),
+                    ),
                 ],
               ),
             ),

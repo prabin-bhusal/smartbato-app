@@ -152,10 +152,6 @@ class _PracticeByTopicsPageState extends State<PracticeByTopicsPage> {
 
   Widget _summaryStrip(PracticeTopicsMap data) {
     final totalSubjects = data.subjects.length;
-    final totalGroups = data.subjects.fold<int>(
-      0,
-      (sum, subject) => sum + subject.topicGroups.length,
-    );
     final totalTopics = data.subjects.fold<int>(
       0,
       (sum, subject) =>
@@ -192,9 +188,9 @@ class _PracticeByTopicsPageState extends State<PracticeByTopicsPage> {
           const SizedBox(width: 10),
           Expanded(
             child: _miniStat(
-              'Groups',
-              totalGroups.toString(),
-              Icons.grid_view_rounded,
+              'Topics',
+              totalTopics.toString(),
+              Icons.topic_rounded,
               const Color(0xFFD1FAE5),
               const Color(0xFF0F766E),
             ),
@@ -345,12 +341,13 @@ class _PracticeByTopicsPageState extends State<PracticeByTopicsPage> {
               _focusGuidedTopicInSubject(subject);
             });
           },
-          tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+          tilePadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+          childrenPadding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
           title: Text(
             subject.name,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w800,
+              fontSize: 19,
               color: const Color(0xFF0F172A),
             ),
             maxLines: 1,
@@ -362,9 +359,14 @@ class _PracticeByTopicsPageState extends State<PracticeByTopicsPage> {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             softWrap: false,
+            style: const TextStyle(
+              fontSize: 12.5,
+              color: Color(0xFF64748B),
+              fontWeight: FontWeight.w600,
+            ),
           ),
           trailing: Container(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
               color: const Color(0xFFF8FAFC),
               borderRadius: BorderRadius.circular(999),
@@ -372,6 +374,7 @@ class _PracticeByTopicsPageState extends State<PracticeByTopicsPage> {
             child: const Icon(
               Icons.expand_less_rounded,
               color: Color(0xFF2563EB),
+              size: 18,
             ),
           ),
           children: subject.topicGroups.map(_groupSection).toList(),
@@ -385,11 +388,11 @@ class _PracticeByTopicsPageState extends State<PracticeByTopicsPage> {
     final guidedTopicId = _guidedTopicId(topics);
 
     return Container(
-      margin: const EdgeInsets.only(top: 12),
-      padding: const EdgeInsets.all(14),
+      margin: const EdgeInsets.only(top: 10),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: const Color(0xFFF8FAFC),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(14),
         border: Border.all(color: const Color(0xFFE2E8F0)),
       ),
       child: Column(
@@ -398,8 +401,8 @@ class _PracticeByTopicsPageState extends State<PracticeByTopicsPage> {
           Row(
             children: [
               Container(
-                width: 9,
-                height: 9,
+                width: 8,
+                height: 8,
                 decoration: const BoxDecoration(
                   color: Color(0xFF2563EB),
                   shape: BoxShape.circle,
@@ -410,12 +413,13 @@ class _PracticeByTopicsPageState extends State<PracticeByTopicsPage> {
                 group.name,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
                   fontWeight: FontWeight.w800,
+                  fontSize: 13.5,
                   color: const Color(0xFF334155),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 8),
           ...topics.asMap().entries.map((entry) {
             return _pathItem(
               topic: entry.value,
@@ -461,31 +465,31 @@ class _PracticeByTopicsPageState extends State<PracticeByTopicsPage> {
 
     return Padding(
       key: guidedKey,
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.only(bottom: 10),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            width: 34,
+            width: 30,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Expanded(
-                  child: Container(
-                    width: 2,
-                    color: index == 0 ? Colors.transparent : connectorColor,
-                  ),
+                Container(
+                  width: 2,
+                  height: 10,
+                  color: index == 0 ? Colors.transparent : connectorColor,
                 ),
                 Container(
-                  width: 28,
-                  height: 28,
+                  width: 24,
+                  height: 24,
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
                       if (isGuided)
-                        _PulseHalo(color: markerForeground, size: 28),
+                        _PulseHalo(color: markerForeground, size: 24),
                       Container(
-                        width: 24,
-                        height: 24,
+                        width: 22,
+                        height: 22,
                         decoration: BoxDecoration(
                           color: markerBackground,
                           shape: BoxShape.circle,
@@ -500,19 +504,18 @@ class _PracticeByTopicsPageState extends State<PracticeByTopicsPage> {
                               ? Icons.play_arrow_rounded
                               : Icons.lock_outline_rounded,
                           color: markerForeground,
-                          size: 14,
+                          size: 13,
                         ),
                       ),
                     ],
                   ),
                 ),
-                Expanded(
-                  child: Container(
-                    width: 2,
-                    color: index == total - 1
-                        ? Colors.transparent
-                        : connectorColor,
-                  ),
+                Container(
+                  width: 2,
+                  height: 10,
+                  color: index == total - 1
+                      ? Colors.transparent
+                      : connectorColor,
                 ),
               ],
             ),
@@ -537,10 +540,10 @@ class _PracticeByTopicsPageState extends State<PracticeByTopicsPage> {
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFF1C84C)),
         boxShadow: [
           BoxShadow(
@@ -553,19 +556,19 @@ class _PracticeByTopicsPageState extends State<PracticeByTopicsPage> {
       child: Row(
         children: [
           Container(
-            width: 42,
-            height: 42,
+            width: 38,
+            height: 38,
             decoration: BoxDecoration(
               color: const Color(0xFFFFF7CC),
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(12),
             ),
             child: const Icon(
               Icons.lock_rounded,
               color: Color(0xFFB45309),
-              size: 20,
+              size: 18,
             ),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 10),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -573,7 +576,7 @@ class _PracticeByTopicsPageState extends State<PracticeByTopicsPage> {
                 Text(
                   'Level ${topic.sequenceOrder}',
                   style: const TextStyle(
-                    fontSize: 11,
+                    fontSize: 10.5,
                     color: Color(0xFFB45309),
                     fontWeight: FontWeight.w700,
                   ),
@@ -582,19 +585,19 @@ class _PracticeByTopicsPageState extends State<PracticeByTopicsPage> {
                 Text(
                   topic.name,
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: 15,
                     fontWeight: FontWeight.w800,
                     color: Color(0xFF7C2D12),
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: 4),
                 Row(
                   children: [
                     const Icon(
                       Icons.auto_awesome_rounded,
-                      size: 14,
+                      size: 13,
                       color: Color(0xFFB45309),
                     ),
                     const SizedBox(width: 4),
@@ -602,7 +605,7 @@ class _PracticeByTopicsPageState extends State<PracticeByTopicsPage> {
                       child: Text(
                         'Optional instant unlock: ${topic.topicUnlockCost} coins',
                         style: const TextStyle(
-                          fontSize: 11.5,
+                          fontSize: 10.8,
                           color: Color(0xFF92400E),
                           fontWeight: FontWeight.w600,
                         ),
@@ -613,7 +616,7 @@ class _PracticeByTopicsPageState extends State<PracticeByTopicsPage> {
               ],
             ),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 8),
           FilledButton.icon(
             onPressed: enoughCoins && !_unlocking
                 ? () => _unlockTopic(topic)
@@ -629,12 +632,13 @@ class _PracticeByTopicsPageState extends State<PracticeByTopicsPage> {
                   )
                 : const Icon(Icons.lock_open_rounded, size: 16),
             style: FilledButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               visualDensity: VisualDensity.compact,
+              minimumSize: const Size(0, 38),
             ),
             label: Text(
               enoughCoins ? 'Unlock' : 'Need $missingCoins more',
-              style: const TextStyle(fontSize: 12.5),
+              style: const TextStyle(fontSize: 12),
             ),
           ),
         ],
@@ -660,13 +664,13 @@ class _PracticeByTopicsPageState extends State<PracticeByTopicsPage> {
       color: Colors.transparent,
       child: InkWell(
         onTap: canPractice ? () => _openTopic(topic) : null,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(16),
         child: Ink(
           width: double.infinity,
-          padding: const EdgeInsets.all(14),
+          padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
             gradient: background,
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: canPractice
                   ? const Color(0xFFBFDBFE)
@@ -687,15 +691,15 @@ class _PracticeByTopicsPageState extends State<PracticeByTopicsPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: 44,
-                    height: 44,
+                    width: 40,
+                    height: 40,
                     decoration: BoxDecoration(
                       color: topic.isCompleted
                           ? const Color(0xFFDCFCE7)
                           : canPractice
                           ? const Color(0xFFDBEAFE)
                           : const Color(0xFFE2E8F0),
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(12),
                     ),
                     child: Icon(
                       topic.isCompleted
@@ -708,10 +712,10 @@ class _PracticeByTopicsPageState extends State<PracticeByTopicsPage> {
                           : canPractice
                           ? const Color(0xFF1D4ED8)
                           : const Color(0xFF64748B),
-                      size: 22,
+                      size: 20,
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: 10),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -719,7 +723,7 @@ class _PracticeByTopicsPageState extends State<PracticeByTopicsPage> {
                         Text(
                           'Level ${topic.sequenceOrder}',
                           style: const TextStyle(
-                            fontSize: 11,
+                            fontSize: 10.5,
                             color: Color(0xFF64748B),
                             fontWeight: FontWeight.w700,
                             letterSpacing: 0.2,
@@ -729,7 +733,7 @@ class _PracticeByTopicsPageState extends State<PracticeByTopicsPage> {
                         Text(
                           topic.name,
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 15,
                             fontWeight: FontWeight.w800,
                             color: canPractice
                                 ? const Color(0xFF0F172A)
@@ -746,19 +750,19 @@ class _PracticeByTopicsPageState extends State<PracticeByTopicsPage> {
                     canPractice
                         ? Icons.arrow_forward_ios_rounded
                         : Icons.lock_outline_rounded,
-                    size: 14,
+                    size: 13,
                     color: canPractice
                         ? const Color(0xFF1D4ED8)
                         : const Color(0xFF94A3B8),
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 10),
               ClipRRect(
                 borderRadius: BorderRadius.circular(999),
                 child: LinearProgressIndicator(
                   value: progress,
-                  minHeight: 7,
+                  minHeight: 6,
                   backgroundColor: const Color(0xFFE2E8F0),
                   valueColor: AlwaysStoppedAnimation<Color>(
                     topic.isCompleted
@@ -805,7 +809,7 @@ class _PracticeByTopicsPageState extends State<PracticeByTopicsPage> {
                   Text(
                     '${topic.progress.toStringAsFixed(0)}% mastery',
                     style: const TextStyle(
-                      fontSize: 11.5,
+                      fontSize: 11,
                       color: Color(0xFF475569),
                       fontWeight: FontWeight.w600,
                     ),
@@ -813,7 +817,7 @@ class _PracticeByTopicsPageState extends State<PracticeByTopicsPage> {
                   Text(
                     'streak ${topic.streak}',
                     style: const TextStyle(
-                      fontSize: 11.5,
+                      fontSize: 11,
                       color: Color(0xFF475569),
                       fontWeight: FontWeight.w600,
                     ),
@@ -829,7 +833,7 @@ class _PracticeByTopicsPageState extends State<PracticeByTopicsPage> {
 
   Widget _statusChip(String label, Color background, Color foreground) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
         color: background,
         borderRadius: BorderRadius.circular(999),
@@ -838,7 +842,7 @@ class _PracticeByTopicsPageState extends State<PracticeByTopicsPage> {
         label,
         style: TextStyle(
           color: foreground,
-          fontSize: 11,
+          fontSize: 10.5,
           fontWeight: FontWeight.w700,
         ),
       ),
