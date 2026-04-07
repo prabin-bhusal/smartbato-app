@@ -1,0 +1,2 @@
+# Add to your pubspec.yaml under dependencies:
+flutter_widget_from_html: ^0.10.5
